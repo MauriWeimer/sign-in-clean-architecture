@@ -1,0 +1,16 @@
+name: injection
+publish_to: 'none'
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  domain:
+    path: ../domain
+  infrastructure:
+    path: ../infrastructure
+
+  get_it: ^7.1.3
