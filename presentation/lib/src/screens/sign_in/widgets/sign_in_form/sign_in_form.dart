@@ -16,7 +16,7 @@ class SignInForm extends StatelessWidget {
         FilledInput(
           hintText: 'Email',
           prefixIcon: Icons.person,
-          onLostFocus: context.read<SignInBloc>().onEmailChanged,
+          onChanged: context.read<SignInBloc>().onEmailChanged,
         ),
         const SizedBox(height: 24.0),
         FilledInput(
@@ -24,7 +24,7 @@ class SignInForm extends StatelessWidget {
           prefixIcon: Icons.lock,
           obscureText: true,
           textInputAction: TextInputAction.done,
-          onLostFocus: context.read<SignInBloc>().onPasswordChanged,
+          onChanged: context.read<SignInBloc>().onPasswordChanged,
         ),
         const SizedBox(height: 32.0),
         const _SignInButton(),

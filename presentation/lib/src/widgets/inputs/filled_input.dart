@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class FilledInput extends StatefulWidget {
+class FilledInput extends StatelessWidget {
   const FilledInput({
     Key? key,
     this.hintText,
@@ -8,7 +8,7 @@ class FilledInput extends StatefulWidget {
     this.obscureText = false,
     this.errorText,
     this.textInputAction = TextInputAction.next,
-    required this.onLostFocus,
+    required this.onChanged,
   }) : super(key: key);
 
   final String? hintText;
@@ -16,36 +16,7 @@ class FilledInput extends StatefulWidget {
   final bool obscureText;
   final String? errorText;
   final TextInputAction textInputAction;
-  final void Function(String) onLostFocus;
-
-  @override
-  _FilledInputState createState() => _FilledInputState();
-}
-
-class _FilledInputState extends State<FilledInput> {
-  late final TextEditingController _controller;
-  late final FocusNode _focusNode;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-    _focusNode = FocusNode();
-    _focusNode.addListener(_onFocusChange);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    _focusNode.removeListener(_onFocusChange);
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  void _onFocusChange() {
-    final focused = _focusNode.hasFocus;
-    if (!focused) widget.onLostFocus(_controller.text);
-  }
+  final void Function(String) onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -54,19 +25,17 @@ class _FilledInputState extends State<FilledInput> {
     final colorScheme = themeData.colorScheme;
 
     return TextField(
-      controller: _controller,
-      focusNode: _focusNode,
-      obscureText: widget.obscureText,
+      obscureText: obscureText,
       obscuringCharacter: '\u{25CF}',
       style: textTheme.bodyText2?.apply(color: colorScheme.onSecondary),
-      textInputAction: widget.textInputAction,
+      textInputAction: textInputAction,
       decoration: InputDecoration(
-        prefixIcon: (widget.prefixIcon == null) ? null : Icon(widget.prefixIcon),
-        hintText: widget.hintText,
+        prefixIcon: (prefixIcon == null) ? null : Icon(prefixIcon),
+        hintText: hintText,
         hintStyle: textTheme.bodyText2?.apply(
           color: colorScheme.onSecondary.withOpacity(0.5),
         ),
-        errorText: widget.errorText,
+        errorText: errorText,
         fillColor: colorScheme.secondary,
         filled: true,
         border: const OutlineInputBorder(
@@ -74,6 +43,7 @@ class _FilledInputState extends State<FilledInput> {
           borderRadius: const BorderRadius.all(const Radius.circular(4.0)),
         ),
       ),
+      onChanged: onChanged,
       onEditingComplete: FocusScope.of(context).nextFocus,
     );
   }

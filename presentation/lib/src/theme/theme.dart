@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 part './colors.dart';
+part './text_styles.dart';
 
 class SignInTheme {
   static get lightTheme => ThemeData.from(
@@ -19,40 +20,12 @@ class SignInTheme {
           onError: _onError,
           brightness: Brightness.light,
         ),
-        // textTheme: TextTheme(
-        //   headline4: TextStyle(
-        //     fontFamily: 'Poppins',
-        //     fontSize: 34.0,
-        //     fontWeight: FontWeight.bold,
-        //     letterSpacing: 0.25,
-        //     color: const Color(0xFF7B7B7B),
-        //   ),
-        //   subtitle1: TextStyle(
-        //     fontFamily: 'Poppins',
-        //     fontSize: 16.0,
-        //     fontWeight: FontWeight.w400,
-        //     letterSpacing: 0.15,
-        //     color: const Color(0xFF7B7B7B),
-        //   ),
-        //   bodyText2: TextStyle(
-        //     fontFamily: 'Poppins',
-        //     fontSize: 14.0,
-        //     letterSpacing: 0.25,
-        //     color: const Color(0xFF7B7B7B),
-        //   ),
-        //   button: TextStyle(
-        //     fontFamily: 'Poppins',
-        //     fontSize: 14.0,
-        //     fontWeight: FontWeight.w400,
-        //     letterSpacing: 1.25,
-        //     color: const Color(0xFF7B7B7B),
-        //   ),
-        //   caption: TextStyle(
-        //     fontFamily: 'Poppins',
-        //     fontSize: 12.0,
-        //     letterSpacing: 0.4,
-        //     color: const Color(0xFF7B7B7B),
-        //   ),
-        // ),
+        textTheme: TextTheme(
+          headline4: _headline4,
+          subtitle1: _subtitle1,
+          bodyText2: _bodyText2,
+          button: _button,
+          caption: _caption,
+        ),
       );
 }

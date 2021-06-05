@@ -12,6 +12,7 @@ class SignInBloc extends Cubit<SignInState> {
   final SignInWithGoogle _signInWithGoogle;
 
   void onEmailChanged(String email) => emit(state.copyWith(email: email));
+
   void onPasswordChanged(String password) => emit(state.copyWith(password: password));
 
   void onSignIn() {

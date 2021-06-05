@@ -1,23 +1,17 @@
 import 'package:application/application.dart';
-import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injection/injection.dart';
 
-import './widgets/sign_in_form/sign_in_form.dart';
 import '../../widgets/widgets.dart';
-import '../../errors/error_messages.dart';
-import '../home/home_screen.dart';
-import '../sign_up/sign_up_screen.dart';
+import './widgets/sign_up_form/sign_up_form.dart';
 
 part './widgets/title.dart';
-part './widgets/sign_in_with_google_button.dart';
-part './widgets/sign_up_button.dart';
+part './widgets/sign_in_button.dart';
 
-class SignInScreen extends StatelessWidget {
-  const SignInScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
-  static Route<void> route() => MaterialPageRoute(builder: (_) => const SignInScreen());
+  static Route<void> route() => MaterialPageRoute(builder: (_) => const SignUpScreen());
 
   @override
   Widget build(BuildContext context) {
@@ -36,25 +30,17 @@ class SignInScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: SafeArea(
-                  child: BlocProvider<SignInBloc>(
-                    create: (_) => SignInBloc(
-                      signInWithGoogle: Injector.getInstance<SignInWithGoogle>(),
-                    ),
+                  child: BlocProvider<SignUpBloc>(
+                    create: (_) => SignUpBloc(),
                     child: Column(
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: titlePadding),
                           child: const _Title(),
                         ),
-                        const SignInForm(),
-                        const LineDivider(
-                          text: 'OR',
-                          padding: const EdgeInsets.symmetric(vertical: 32.0),
-                          expandLines: true,
-                        ),
-                        const _SignInWithGoogleButton(),
+                        const SignUpForm(),
                         const Spacer(),
-                        const _SignUpButton(),
+                        const _SignInButton(),
                       ],
                     ),
                   ),
