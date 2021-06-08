@@ -1,6 +1,8 @@
 import 'package:application/application.dart';
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injection/injection.dart';
 
 import '../../widgets/widgets.dart';
 import './widgets/sign_up_form/sign_up_form.dart';
@@ -31,7 +33,7 @@ class SignUpScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(24.0),
                 child: SafeArea(
                   child: BlocProvider<SignUpBloc>(
-                    create: (_) => SignUpBloc(),
+                    create: (_) => SignUpBloc(signUp: Injector.getInstance<SignUp>()),
                     child: Column(
                       children: [
                         Padding(

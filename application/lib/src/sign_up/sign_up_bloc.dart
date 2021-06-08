@@ -5,23 +5,28 @@ import 'package:domain/domain.dart';
 part './sign_up_state.dart';
 
 class SignUpBloc extends Cubit<SignUpState> {
-  SignUpBloc() : super(const SignUpState());
+  SignUpBloc({required SignUp signUp})
+      : _signUp = signUp,
+        super(const SignUpState());
 
-  void onEmailChanged(String email) => emit(state.copyWith(email: Email.pure(value: email)));
+  final SignUp _signUp;
+
+  void onEmailChanged(String email) => emit(state.copyWith(email: Email(value: email)));
 
   void onPasswordChanged(String password) => emit(
         state.copyWith(
-          password: Password.pure(value: password),
-          repeatedPassword: Password.pure(
+          password: Password(value: password),
+          repeatedPassword: Password(
             value: state.repeatedPassword.value,
             repeated: password,
+            error: state.repeatedPassword.error,
           ),
         ),
       );
 
   void onRepeatedPasswordChanged(String password) => emit(
         state.copyWith(
-          repeatedPassword: Password.pure(
+          repeatedPassword: Password(
             value: password,
             repeated: state.password.value,
           ),
@@ -29,13 +34,18 @@ class SignUpBloc extends Cubit<SignUpState> {
       );
 
   void onSignUp() {
-    final email = state.email.validate();
-    final password = state.password.validate();
-    final repeatedPassword = state.repeatedPassword.validate();
+    // Valido los fields al presionar el boton
+    emit(
+      state.copyWith(
+        email: state.email.validate(),
+        password: state.password.validate(),
+        repeatedPassword: state.repeatedPassword.validate(),
+      ),
+    );
 
     if (state.isValid)
       awaitUseCase(
-        useCase: Future.delayed(Duration(seconds: 2)),
+        useCase: _signUp.execute(state.email, state.password),
         then: (_) => emit(state.copyWith(status: Status.success())),
       );
   }

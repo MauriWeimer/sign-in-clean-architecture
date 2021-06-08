@@ -8,7 +8,7 @@ class _SignInButton extends StatelessWidget {
     return BlocConsumer<SignUpBloc, SignUpState>(
       listenWhen: (previous, current) => current.isSuccess,
       buildWhen: (previous, current) => (previous.status != current.status) && (current.isValid),
-      listener: (context, state) => print('signed up!'),
+      listener: (context, state) => Navigator.pop(context),
       builder: (_, state) => Column(
         children: [
           if (state.isFailure)

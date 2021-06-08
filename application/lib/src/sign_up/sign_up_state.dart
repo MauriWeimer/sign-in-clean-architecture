@@ -2,9 +2,9 @@ part of './sign_up_bloc.dart';
 
 class SignUpState extends State<Error> {
   const SignUpState({
-    this.email = const Email.pure(),
-    this.password = const Password.pure(),
-    this.repeatedPassword = const Password.pure(),
+    this.email = const Email(),
+    this.password = const Password(),
+    this.repeatedPassword = const Password(),
     Status<Error> status = const Status(),
   }) : super(status);
 

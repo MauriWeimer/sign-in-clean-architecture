@@ -1,10 +1,8 @@
 abstract class Validator<E> {
-  const Validator([this.pure = false]);
+  const Validator(this.error);
 
-  final bool pure;
+  final E? error;
 
-  E? get error => (pure) ? null : validate();
-  bool get isValid => validate() == null;
-
-  E? validate();
+  bool get isValid => error == null;
+  Validator<E>? validate();
 }

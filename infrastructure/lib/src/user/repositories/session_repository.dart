@@ -11,6 +11,10 @@ class SessionRepository implements SessionRepositoryContract {
   final SessionDataSourceContract _sessionDataSource;
 
   @override
+  Future<Result<bool>> signUp(String email, String password) =>
+      Future.delayed(Duration(seconds: 2)).then((value) => Result.success(data: true));
+
+  @override
   Future<Result<bool>> signInWithGoogle() => _sessionDataSource.signInWithGoogle().toResult(
         onValue: (contactDTO) => contactDTO != null,
         onError: (error) {
