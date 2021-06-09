@@ -1,21 +1,11 @@
 import '../../core/core.dart';
 
-class Email extends Validator<Error> {
-  const Email({this.value = '', Error? error}) : super(error);
-
-  final String value;
+class Email extends Validator<String, Error> {
+  const Email({String value = '', Error? error}) : super(value, error);
 
   @override
-  Email? validate() {
-    if (this.value.isEmpty)
-      return this.copyWith(error: Error.emptyField);
-    else if (!this.value.isValidEmailFormat) return this.copyWith(error: Error.invalidEmailFormat);
+  Email validate() => Email(value: this.value, error: checkRules());
 
-    return null;
-  }
-
-  Email? copyWith({String? value, Error? error}) => Email(
-        value: value ?? this.value,
-        error: error,
-      );
+  @override
+  List<Rule<String, Error>> get rules => [const EmptyRule(), const EmailFormatRule()];
 }

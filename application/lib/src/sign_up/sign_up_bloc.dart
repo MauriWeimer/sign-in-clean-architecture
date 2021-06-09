@@ -16,10 +16,8 @@ class SignUpBloc extends Cubit<SignUpState> {
   void onPasswordChanged(String password) => emit(
         state.copyWith(
           password: Password(value: password),
-          repeatedPassword: Password(
-            value: state.repeatedPassword.value,
+          repeatedPassword: state.repeatedPassword.copyWith(
             repeated: password,
-            error: state.repeatedPassword.error,
           ),
         ),
       );
