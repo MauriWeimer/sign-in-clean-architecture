@@ -12,27 +12,21 @@ class FirebaseSessionDataSource implements SessionDataSourceContract {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
+  Future<void> signUp(String email, String password) =>
+      _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+
+  @override
   Future<ContactDTO?> signInWithGoogle() async {
-    try {
-      final googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) return null;
+    final googleUser = await _googleSignIn.signIn();
+    if (googleUser == null) return null;
 
-      final auth = await googleUser.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: auth.accessToken,
-        idToken: auth.idToken,
-      );
+    final auth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: auth.accessToken,
+      idToken: auth.idToken,
+    );
 
-      return _loginWithCredential(credential);
-    } on PlatformException catch (error) {
-      // Abstraer al repositorio y devolverle excepciones conocidas por él
-      switch (error.code) {
-        case GoogleSignIn.kNetworkError:
-          throw SocketException('Google sign-in network error');
-        default:
-          rethrow;
-      }
-    }
+    return _loginWithCredential(credential);
   }
 
   Future<ContactDTO?> _loginWithCredential(AuthCredential credential) async {

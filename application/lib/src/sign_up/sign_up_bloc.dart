@@ -42,9 +42,17 @@ class SignUpBloc extends Cubit<SignUpState> {
     );
 
     if (state.isValid)
-      awaitUseCase(
+      awaitUseCase<Result<bool>>(
         useCase: _signUp.execute(state.email, state.password),
-        then: (_) => emit(state.copyWith(status: Status.success())),
+        then: (result) => result.when(
+          success: (signedUp) {
+            if (signedUp)
+              emit(state.copyWith(status: const Status.success()));
+            else
+              emit(state.copyWith(status: const Status()));
+          },
+          failure: (error) => emit(state.copyWith(status: Status.failure(error: error))),
+        ),
       );
   }
 }
