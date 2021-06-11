@@ -3,6 +3,8 @@ enum Error {
 
   weakPassword,
   emailAlreadyInUse,
+  userNotFound,
+  wrongPassword,
   googleSignInFailed,
 
   emptyField,

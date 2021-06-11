@@ -12,6 +12,27 @@ class SessionRepository implements SessionRepositoryContract {
   final SessionDataSourceContract _sessionDataSource;
 
   @override
+  Future<Result<bool>> signIn(String email, String password) =>
+      _sessionDataSource.signIn(email, password).toResult(
+            onValue: (contactDTO) => contactDTO != null,
+            onError: (error) {
+              switch (error.runtimeType) {
+                case FirebaseAuthException:
+                  switch (error.code) {
+                    case 'user-not-found':
+                      return Error.userNotFound;
+                    case 'wrong-password':
+                      return Error.wrongPassword;
+                    default:
+                      return Error.unknown;
+                  }
+                default:
+                  return Error.unknown;
+              }
+            },
+          );
+
+  @override
   Future<Result<bool>> signUp(String email, String password) =>
       _sessionDataSource.signUp(email, password).toResult(
             onValue: (_) => true,

@@ -12,13 +12,15 @@ class _SignInWithGoogleButton extends StatelessWidget {
       listener: (context, state) => Navigator.push(context, HomeScreen.route()),
       builder: (_, state) => Column(
         children: [
-          if (state.isFailure)
+          if (state.isFailure) ...[
             Text(
               state.error!.message,
               style: Theme.of(context).textTheme.bodyText2?.apply(
                     color: Theme.of(context).colorScheme.error,
                   ),
             ),
+            const SizedBox(height: 8.0),
+          ],
           RoundedButton(
             child: Text(
               'SIGN IN WITH GOOGLE',

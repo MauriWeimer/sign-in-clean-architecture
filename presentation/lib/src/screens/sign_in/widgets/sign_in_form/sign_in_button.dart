@@ -9,16 +9,18 @@ class _SignInButton extends StatelessWidget {
       listenWhen: (previous, current) => (current.isSuccess) && (current.isSignInWorking),
       buildWhen: (previous, current) =>
           (previous.status != current.status) && (current.isSignInWorking),
-      listener: (context, state) => print('signed in!'),
+      listener: (context, state) => Navigator.push(context, HomeScreen.route()),
       builder: (_, state) => Column(
         children: [
-          if (state.isFailure)
+          if (state.isFailure) ...[
             Text(
-              '${state.error}',
+              state.error!.message,
               style: Theme.of(context).textTheme.bodyText2?.apply(
                     color: Theme.of(context).colorScheme.error,
                   ),
             ),
+            const SizedBox(height: 8.0),
+          ],
           RoundedButton(
             child: Text(
               'LOGIN',

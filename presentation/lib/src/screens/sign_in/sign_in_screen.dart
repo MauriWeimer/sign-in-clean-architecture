@@ -38,6 +38,7 @@ class SignInScreen extends StatelessWidget {
                 child: SafeArea(
                   child: BlocProvider<SignInBloc>(
                     create: (_) => SignInBloc(
+                      signIn: Injector.getInstance<SignIn>(),
                       signInWithGoogle: Injector.getInstance<SignInWithGoogle>(),
                     ),
                     child: Column(

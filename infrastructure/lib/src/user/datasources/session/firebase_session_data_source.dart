@@ -16,6 +16,15 @@ class FirebaseSessionDataSource implements SessionDataSourceContract {
       _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
 
   @override
+  Future<ContactDTO?> signIn(String email, String password) async {
+    final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return _getUserFromUserCredential(userCredential);
+  }
+
+  @override
   Future<ContactDTO?> signInWithGoogle() async {
     final googleUser = await _googleSignIn.signIn();
     if (googleUser == null) return null;
@@ -26,12 +35,11 @@ class FirebaseSessionDataSource implements SessionDataSourceContract {
       idToken: auth.idToken,
     );
 
-    return _loginWithCredential(credential);
+    final userCredential = await _firebaseAuth.signInWithCredential(credential);
+    return _getUserFromUserCredential(userCredential);
   }
 
-  Future<ContactDTO?> _loginWithCredential(AuthCredential credential) async {
-    // TODO: revisar excepciones
-    final userCredential = await _firebaseAuth.signInWithCredential(credential);
+  ContactDTO? _getUserFromUserCredential(UserCredential userCredential) {
     final user = userCredential.user;
     if (user == null) return null;
 
